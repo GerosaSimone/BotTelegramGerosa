@@ -20,7 +20,7 @@ public class BotPubblicita {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        Invia a = new Invia("https://api.telegram.org/bot5244355970:AAHGu73Caflh9dcF6S_hOjVjG_YYOSqEsnE");
+        /*Invia a = new Invia("https://api.telegram.org/bot5244355970:AAHGu73Caflh9dcF6S_hOjVjG_YYOSqEsnE");
         Messaggi m = Messaggi.getMessaggi();
         m.aggiorna("https://api.telegram.org/bot5244355970:AAHGu73Caflh9dcF6S_hOjVjG_YYOSqEsnE/getupdates");
 
@@ -44,9 +44,16 @@ public class BotPubblicita {
                     b=false;
                     break;        
             }
-        }
+        }*/
+        ThreadRicezione t=new ThreadRicezione();
+        t.start();
+        
 
         // TODO code application logic here
+        
+      
+     
+        
     }
 
 }

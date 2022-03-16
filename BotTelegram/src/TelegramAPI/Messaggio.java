@@ -19,6 +19,63 @@ public class Messaggio {
     Chat c;
     long date;
     String text;
+
+    public long getMessage_id() {
+        return message_id;
+    }
+
+    public void setMessage_id(long message_id) {
+        this.message_id = message_id;
+    }
+
+    public long getUpdate_id() {
+        return update_id;
+    }
+
+    public void setUpdate_id(long update_id) {
+        this.update_id = update_id;
+    }
+
+    public From getF() {
+        return f;
+    }
+
+    public void setF(From f) {
+        this.f = f;
+    }
+
+    public Chat getC() {
+        return c;
+    }
+
+    public void setC(Chat c) {
+        this.c = c;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Messaggio() {
+        this.message_id = 0;
+        this.update_id = 0;
+        this.f = null;
+        this.c = null;
+        this.date = 0;
+        this.text = "";
+    }
     
     public Messaggio (JSONObject arr){
         f=new From();

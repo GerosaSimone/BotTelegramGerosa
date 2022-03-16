@@ -6,6 +6,7 @@
 package TelegramAPI;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -20,6 +21,17 @@ public class Invia {
         m=Messaggi.getMessaggi();
         url=s;
     }
+    public void inviaLocation(Double latitudine,Double longitudine) throws MalformedURLException, IOException{
+        Long id=m.getM().get(m.getM().size()-1).c.id; 
+        URL Url = new URL(url+"/sendLocation?chat_id="+id+"&latitude="+latitudine+"&longitude="+longitudine);
+        Url.openStream();
+    }
+    
+    public void inviaChatId(Long id,String messaggio) throws MalformedURLException, IOException{
+        URL Url = new URL(url+"/sendMessage?chat_id="+id+"&text="+messaggio);
+        Url.openStream();
+    }
+    
     public void inviaMessaggioUltimoArrivato(String messaggio) throws IOException{
         Long id=m.getM().get(m.getM().size()-1).c.id;      
         URL Url = new URL(url+"/sendMessage?chat_id="+id+"&text="+messaggio);
