@@ -32,20 +32,33 @@ public class ThreadRicezione extends Thread {
     Invia a;
     CittaUtenti c;
 
-    public ThreadRicezione() {
-        c = CittaUtenti.getUtenti();
+    public ThreadRicezione() throws IOException {
+        c = new CittaUtenti();
         a = new Invia("https://api.telegram.org/bot5244355970:AAHGu73Caflh9dcF6S_hOjVjG_YYOSqEsnE");
     }
 
     @Override
     public void run() {
         Messaggio vecchio = new Messaggio();
+        try {
+            Messaggi.getMessaggi().aggiorna("https://api.telegram.org/bot5244355970:AAHGu73Caflh9dcF6S_hOjVjG_YYOSqEsnE/getupdates");
+        } catch (IOException ex) {
+            Logger.getLogger(ThreadRicezione.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int avvio=Messaggi.getMessaggi().getM().size();
         while (true) {
             try {
                 Messaggi.getMessaggi().aggiorna("https://api.telegram.org/bot5244355970:AAHGu73Caflh9dcF6S_hOjVjG_YYOSqEsnE/getupdates");
+                
+            } catch (IOException ex) {
+                Logger.getLogger(ThreadRicezione.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(avvio!=Messaggi.getMessaggi().getM().size()){
+            
+            try {
+                
                 Messaggio m = Messaggi.getMessaggi().getM().get(Messaggi.getMessaggi().getM().size() - 1);
-                System.out.println("nuova: "+m.getText());
-                System.out.println("vecchia: "+vecchio.getText());
+                
                 if (!m.getText().equals(vecchio.getText())) {
                     Controlla(m);
                 }
@@ -63,6 +76,7 @@ public class ThreadRicezione extends Thread {
             }
 
         }
+        }
     }
 
     public void Controlla(Messaggio mess) throws ParserConfigurationException, SAXException, IOException {
@@ -70,27 +84,19 @@ public class ThreadRicezione extends Thread {
         if (mess.getText().length() > 6) {
             if (mess.getText().substring(0, 7).equals("/citta ")) {
                 String citta = mess.getText().substring(7);
-                PrimaCitta(citta);
+                PrimaCitta(citta,mess);
 
             }
-        } else if (mess.getText().length() > 2) {
-
-            if (mess.getText().substring(0, 2).toLowerCase().equals("yes")) {
-
-                
-
-            } else if (mess.getText().substring(0, 1).toLowerCase().equals("no")) {
-
-            }
-        }
+        } 
     }
 
-    public void PrimaCitta(String s) throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
+    public void PrimaCitta(String s,Messaggio m) throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
         System.out.println("stampa citta");
         Element e = getElement("https://nominatim.openstreetmap.org/search?q=" + s + "&format=xml&addressdetails=1");
         Node place = e.getElementsByTagName("place").item(0);
         try{
         a.inviaLocation(Double.parseDouble(place.getAttributes().getNamedItem("lat").getNodeValue()), Double.parseDouble(place.getAttributes().getNamedItem("lon").getNodeValue()));
+        c.aggiorna(m.getF().id,s,Double.parseDouble(place.getAttributes().getNamedItem("lat").getNodeValue()),Double.parseDouble(place.getAttributes().getNamedItem("lon").getNodeValue()),m.getC().getUser());
         }catch(Exception b){
             a.inviaMessaggioUltimoArrivato("Citta inesistente");
         }

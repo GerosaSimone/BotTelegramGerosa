@@ -64,8 +64,14 @@ public ArrayList<Messaggio> getM(){
         JSONArray arr = obj.getJSONArray("result");
         
         for (int i = 0; i < arr.length(); i++) {
+            try{
             Messaggio m = new Messaggio(arr.getJSONObject(i));
-            messaggi.add(m);          
+              messaggi.add(m);  
+            }catch(Exception e){
+               
+            }
+            
+                  
         }
     }
     

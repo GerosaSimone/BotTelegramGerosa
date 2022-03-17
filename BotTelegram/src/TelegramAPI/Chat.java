@@ -14,15 +14,20 @@ public class Chat {
     long id;
     String first_name;
     String last_name;
+    String username;
     String type;
 
     public Chat() {
         id = 0000;
         first_name = "";
+        username="";
         last_name = "";
         type = "";
     }
 
+    public String getUser(){
+        return first_name+" "+last_name;
+    }
     public String to_String() {
         String s = "";
 

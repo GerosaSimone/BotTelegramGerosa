@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class From {
 
-    long id;
+    public long id;
     boolean is_bot;
     String first_name;
     String last_name;

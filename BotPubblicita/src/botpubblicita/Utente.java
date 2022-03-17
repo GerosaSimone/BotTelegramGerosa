@@ -10,14 +10,33 @@ package botpubblicita;
  * @author gero
  */
 public class Utente {
-    String nome;
-    String cognome;
+
+    String username;
     String Citta;
     Long id;
     Double latitudine;
     Double longitudine;
-    Boolean set;
-    int numCitta;
-    
+
+    public Utente(String user, String Citta, Long id, Double latitudine, Double longitudine) {
+        this.username = user;
+        this.Citta = Citta;
+        this.id = id;
+        this.latitudine = latitudine;
+        this.longitudine = longitudine;
+    }
+
+    public Utente(String s) {
+        String[] tmp=s.split(";");
+        this.username = tmp[0];
+        this.Citta = tmp[1];
+        this.id = Long.parseLong(tmp[2]);
+        this.latitudine = Double.parseDouble(tmp[3]);
+        this.longitudine = Double.parseDouble(tmp[4]);
+    }
+
+    public String toCSV() {
+        return username+";"+Citta+";"+id+";"+latitudine+";"+longitudine+";\n";
+    }
+
     
 }

@@ -7,6 +7,7 @@ package botpubblicita;
 
 import TelegramAPI.Messaggi;
 import TelegramAPI.Messaggio;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -15,29 +16,37 @@ import java.util.ArrayList;
  */
 public class CittaUtenti {
     ArrayList<Utente> utenti;
-    
-     private static CittaUtenti istanza = null;
+    Gestione g;
+   
+    //Il costruttore private impedisce l'istanza di oggetti da parte di classi esterne
+    CittaUtenti() throws IOException {
+        g=new Gestione("utenti.csv");
+        utenti = new ArrayList<Utente>();
+        utenti=g.getUtenti();
+    }
+    public void aggiorna(Long id, String citta, double lat,double lon,String username) throws IOException{
+        boolean trovato=false;
+        int pos=-1;
+        Utente u=new Utente(username,citta,id,lat,lon);
+        
+        for (int i = 0; i < utenti.size(); i++) {
+            
+            if(utenti.get(i).id.equals(u.id)){
+                trovato=true;
+                pos=i;
+            }
+        }
+        if(trovato){
+            utenti.remove(pos);
+            utenti.add(u);
+            g.aggiornaFile(utenti);
+        }else{
+            utenti.add(u);
+            g.aggiungi(u);
+        }
+    }
 
    
-
-    // Metodo della classe impiegato per accedere al singleton
-    public static synchronized CittaUtenti getUtenti() {
-        if (istanza == null) {
-            istanza = new CittaUtenti();
-        }
-        return istanza;
-    }
-    //Il costruttore private impedisce l'istanza di oggetti da parte di classi esterne
-    private CittaUtenti() {
-        utenti = new ArrayList<Utente>();
-    }
     
-    void aggiorna(){
-        Messaggi m=Messaggi.getMessaggi();
-        for (int i = 0; i < m.getM().size(); i++) {
-            if(m.getM().get(i).getText().substring(0,7)=="/citta ") {
-                
-            }
-            } 
-    }
+   
 }
