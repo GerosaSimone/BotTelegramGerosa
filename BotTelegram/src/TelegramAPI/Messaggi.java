@@ -20,11 +20,9 @@ import org.json.JSONObject;
  * @author gerosa_simone
  */
 public class Messaggi {
-    
+
     ArrayList<Messaggio> messaggi;
     private static Messaggi istanza = null;
-
-   
 
     // Metodo della classe impiegato per accedere al singleton
     public static synchronized Messaggi getMessaggi() {
@@ -33,19 +31,19 @@ public class Messaggi {
         }
         return istanza;
     }
+
     //Il costruttore private impedisce l'istanza di oggetti da parte di classi esterne
     private Messaggi() {
         messaggi = new ArrayList<Messaggio>();
     }
-public ArrayList<Messaggio> getM(){
-    return messaggi;
-}
-    
+
+    public ArrayList<Messaggio> getM() {
+        return messaggi;
+    }
+
     // Metodo della classe impiegato per accedere al singleton
-  
-    
     public void aggiorna(String url) throws MalformedURLException, IOException {
-        
+
         String s = "";
         URL u;
         u = new URL(url);
@@ -57,33 +55,34 @@ public ArrayList<Messaggio> getM(){
         reader.close();
         this.GetUpdates(s);
     }
-    
+
     public void GetUpdates(String s) throws MalformedURLException, IOException {
         messaggi = new ArrayList<Messaggio>();
         JSONObject obj = new JSONObject(s);
         JSONArray arr = obj.getJSONArray("result");
-        
+
+        if(!arr.isEmpty()){
         for (int i = 0; i < arr.length(); i++) {
-            try{
-            Messaggio m = new Messaggio(arr.getJSONObject(i));
-              messaggi.add(m);  
-            }catch(Exception e){
-               
+            try {
+                Messaggio m = new Messaggio(arr.getJSONObject(i));
+                messaggi.add(m);
+            } catch (Exception e) {
+
             }
-            
-                  
+
+        }
         }
     }
-    
-    public String to_String(){
-        String s="";
-        
+
+    public String to_String() {
+        String s = "";
+
         for (int i = 0; i < messaggi.size(); i++) {
-            s+=messaggi.get(i).to_String();
-            s+="-------------------------------------------------------------------------------------------------------------------\n";
+            s += messaggi.get(i).to_String();
+            s += "-------------------------------------------------------------------------------------------------------------------\n";
         }
-        
+
         return s;
     }
-    
+
 }

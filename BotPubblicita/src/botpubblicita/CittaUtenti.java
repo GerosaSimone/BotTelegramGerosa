@@ -18,6 +18,15 @@ public class CittaUtenti {
     ArrayList<Utente> utenti;
     Gestione g;
    
+     private static CittaUtenti istanza = null;
+
+    // Metodo della classe impiegato per accedere al singleton
+    public static synchronized CittaUtenti getUtenti() throws IOException {
+        if (istanza == null) {
+            istanza = new CittaUtenti();
+        }
+        return istanza;
+    }
     //Il costruttore private impedisce l'istanza di oggetti da parte di classi esterne
     CittaUtenti() throws IOException {
         g=new Gestione("utenti.csv");
@@ -45,6 +54,13 @@ public class CittaUtenti {
             g.aggiungi(u);
         }
     }
+    public void vis(){
+    for (int i = 0; i < utenti.size(); i++) {
+            
+            System.out.println(utenti.get(i).toCSV()+"\n");
+            
+        }
+}
 
    
     
